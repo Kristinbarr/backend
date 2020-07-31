@@ -9,10 +9,11 @@ const cookieParser = require('cookie-parser')
 const server = express()
 
 // import routers
-const userRouter = require('./data/routers/users/users-router')
-const projectRouter = require('./data/routers/projects/projects-router')
-const valueRouter = require('./data/routers/values/values-router')
-const goalRouter = require('./data/routers/goals/goals-router')
+const welcomeRouter = require('./routers/welcome-router')
+const userRouter = require('./routers/users/users-router')
+const projectRouter = require('./routers/projects/projects-router')
+const valueRouter = require('./routers/values/values-router')
+const goalRouter = require('./routers/goals/goals-router')
 
 server.use(express.json())
 server.use(cors())
@@ -34,7 +35,14 @@ server.use((err, req, res, next) => {
   next()
 })
 
+server.get('/', (req, res) => {
+	res.status(200).json({
+		message: 'The API is running!'
+	})
+})
+
 // init routers
+server.use('/api', welcomeRouter)
 server.use('/api/auth',userRouter )
 server.use('/api/projects',projectRouter )
 server.use('/api/values',valueRouter )
